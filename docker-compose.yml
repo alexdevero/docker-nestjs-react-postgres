@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  nxginx:
+    depends_on:
+      - api
+      - client
+    restart: always
+    build:
+      dockerfile: Dockerfile
+      context: "./nginx"
+    ports:
+      - "3050:80"
+
+  api:
+    build:
+      dockerfile: Dockerfile
+      context: "./api"
+    # depends_on:
+    #   db
+    volumes:
+      - /api/node_modules
+      - ./api:/api
+
+  client:
+    build:
+      dockerfile: Dockerfile
+      context: "./client"
+    depends_on:
+      - api
+    volumes:
+      - /client/node_modules
+      - ./client:/app
