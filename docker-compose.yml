@@ -1,7 +1,7 @@
 version: '3.8'
 
 services:
-  db:
+  postgres:
     image: postgres:14.2
     restart: always
     environment:
@@ -30,7 +30,7 @@ services:
       dockerfile: Dockerfile
       context: "./api"
     depends_on:
-      - db
+      - postgres
     volumes:
       - /api/node_modules
       - ./api:/api
@@ -40,7 +40,7 @@ services:
       dockerfile: Dockerfile
       context: "./client"
     depends_on:
-      - api
+      - api # todo: might not be necessary
     volumes:
       - /client/node_modules
       - ./client:/app
