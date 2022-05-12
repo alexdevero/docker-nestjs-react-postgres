@@ -26,14 +26,17 @@ services:
       - "3050:80"
 
   api:
+    restart: always
     build:
       dockerfile: Dockerfile
-      context: "./api"
+      context: './api'
     depends_on:
       - postgres
     volumes:
       - /api/node_modules
       - ./api:/api
+    ports:
+      - '3001:3000'
 
   client:
     build:
@@ -44,3 +47,8 @@ services:
     volumes:
       - /client/node_modules
       - ./client:/app
+    ports:
+      - "3000:3000"
+
+volumes:
+  pg_data:
